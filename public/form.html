@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sign Up</title>
+</head>
+
+<body>
+    <div class="form-container">
+        <div id="top">
+            <a href="/index.html"><img src="image/logo.png" width="200" height="100"></a>
+        </div>
+        <form action="/signUp" method="POST">
+            <label for="username">Your Name</label><br>
+            <input type="text" id="username" name="username"><br>
+
+            <label for="email">Email</label><br>
+            <input type="text" id="email" name="email"><br>
+
+            <label for="phonenumber">Phone Number</label><br>
+            <input type="text" id="phonenumber" name="phonenumber"><br>
+
+            <label for="password">Enter Password</label><br>
+            <input type="password" id="password" name="password"><br>
+            <label for="repassword">Re-enter Password</label><br>
+            <input type="password" id="repassword" name="repassword"><br><br><br>
+            <div class="create-account-btn-container">
+                <input class="create-account-btn" type="submit" value="Create Account">
+            </div>
+
+        </form>
+        <a href="/index.html">Back to Home</a>
+    </div>
+
+</body>
+
+</html>

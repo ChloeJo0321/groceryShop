@@ -1,0 +1,269 @@
+* {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+}
+
+img {
+    width: 200px;
+}
+
+#top {
+
+    background-color: #9DC183;
+    padding: 10px;
+    /* align-items: center; */
+}
+
+.top-btn {
+    display: flex;
+    flex-wrap: nowrap;
+
+}
+
+.top-btn a {
+    cursor: pointer;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    padding: 8px;
+    font-weight: bold;
+    background-color: #9DC183;
+    text-decoration: none;
+
+}
+
+#products {
+    display: flex;
+    justify-content: center;
+
+
+}
+
+.product-row {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    margin-top: 20px;
+    padding: 50px;
+
+    /* margin-bottom: 50px; */
+
+}
+
+.product-row a {
+    text-decoration: none;
+    color: rgb(14, 146, 69);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.product-row a p {
+    margin: 0;
+    font-size: 15px;
+
+}
+
+.top-btn a:hover {
+    background-color: rgb(14, 146, 69);
+    cursor: pointer;
+    /* Color on hover */
+}
+
+#search-bar {
+    width: 450px;
+    height: 30px;
+    border: none;
+    border-radius: 20px;
+
+
+}
+
+/* Main page */
+#main {
+    /* display: flex;
+    justify-content: center; */
+    padding: 10px;
+}
+
+#category {
+    margin-bottom: 20px;
+}
+
+#cart {
+    width: 50px;
+}
+
+.category-btn {
+    border: none;
+    /* background-color: aqua; */
+    padding: 10px;
+    margin: 5px;
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+
+}
+
+#main-img {
+    width: 700px;
+    border-radius: 30px;
+}
+
+#product-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 30px;
+    margin-left: 100px;
+    align-items: center;
+    gap: 200px;
+}
+
+.product_text {
+
+    color: rgb(14, 146, 69);
+    font-size: 25px;
+}
+
+.product_header {
+    display: flex;
+    align-items: center;
+    gap: 150px;
+}
+
+.btn-container {
+    margin-top: 40px;
+}
+
+#btn-cart {
+    background-color: #9DC183;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    text-decoration: none;
+    color: black;
+}
+
+#btn-cart:hover {
+    cursor: pointer;
+    border: #6a8755 1px solid;
+
+}
+
+.form-container {
+    background-color: #9DC183;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    gap: 20px;
+}
+
+.create-account-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.create-account-btn {
+    background-color: #6a8755;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+
+}
+
+.create-account-btn:hover {
+    cursor: pointer;
+    border: #536943 1px solid;
+}
+
+#cart-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#product-cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#product-row {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.product-desc-row {
+    flex: 0 0 200px;
+    margin-left: 50px;
+    align-items: center;
+
+}
+
+.product-desc {
+    display: flex;
+
+}
+
+.product-desc p {
+    text-align: left;
+}
+
+#quantity-container {
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+#sign-in-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+}
+
+#sign-in {
+    display: flex;
+}
+
+#sign-in-btn {
+    background-color: #9DC183;
+    margin-top: 30px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+}
+
+#sign-in-btn:hover {
+    cursor: pointer;
+    border: #536943 1px solid;
+}
+
+#sign-up-btn {
+    background-color: #9DC183;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+}
+
+#sign-up-btn:hover {
+    cursor: pointer;
+    border: #536943 1px solid;
+}
+
+#sign-up-btn-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 200px;
+}

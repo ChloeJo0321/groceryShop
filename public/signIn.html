@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <script src="user.js"></script>
+    <title>Sign In</title>
+</head>
+
+<body>
+    <div id="top">
+        <!-- <a href="index.html"><img src="logo.png"></a> -->
+        <a href="/index.html"><img src="../image/logo.png"></a>
+        <div class="top-btn">
+            <input type="text" placeholder="Search products" id="search-bar">
+            <a href="/reorder.html">Reorder</a>
+            <a href="/signIn.html">Sign In</a>
+            <a href="/cart.html"><i class="fa-solid fa-cart-shopping"></i>$0.00</a>
+        </div>
+
+    </div>
+
+    <div id="main">
+        <h1>Sign In</h1>
+        <div id="sign-in-container">
+            <span id="error-msg"></span>
+            <div id="sign-in">
+                <form action="/signIn" method="POST">
+                    <div id="username-container">
+                        <label for="username">User Name:</label>
+                        <input type="text" name="username" id="username"><br>
+                    </div>
+                    <div id="password-container">
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" id="password"><br>
+                        <button type="button" onclick="showPassword()"><i class="fa fa-eye"
+                                aria-hidden="true"></i></button>
+                    </div>
+                    <div><input type="submit" value="Sign In" id="sign-in-btn"></div>
+
+                </form>
+            </div>
+
+            <div id="sign-up-btn-container">
+                <p>Don't Have Account?</p>
+                <button type="button" id="sign-up-btn">Sign Up</button>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
