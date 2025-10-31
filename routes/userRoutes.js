@@ -33,7 +33,7 @@ router.post("/signIn", async (req, res) => {
   if (!isMatch) {
     return res.status(401).json({ message: "Incorrect password" });
   }
-  // Signin success
+  // Create a token when signin success
   const token = jwt.sign({ id: data["username"] }, jwtSecret);
   res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
 
