@@ -2,17 +2,99 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 const path = require("path");
+const { authenticateUser } = require("../middleware/authMiddleware");
 
-router.get("/cart", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "..", "public", "cart.html"));
+router.get(["/cart", "/cart.html"], authenticateUser, async (req, res) => {
+  if (req.isAuthenticated) {
+    const username = req.user["username"];
+    const query = "select * from cart_items where username = ?";
+    // Get all cart items with the username
+    const userCart = await db.query(query, [username]);
+    let products = [];
+
+    // Get product info
+    for (const product of userCart) {
+      const product_id = product["product_id"];
+      const [res] = await db.query(
+        "select * from groceries where product_id=?",
+        [product_id]
+      );
+      products.push(res);
+    }
+    return res.json({ products, userCart });
+  } else {
+  }
+  // return res.redirect
 });
 
-router.post("/cart", async (req, res) => {
-  // Add selected item to client
-  // const id = req.body.product_id;
-  // console.log(id);
-  // const query = "select * from groceries where product_id = ?";
-  // const data = await db.query(query, [id]);
-  // return res.json(data);
+// Get user's cart or create one if there's none
+router.post("/cart", authenticateUser, async (req, res) => {
+  // Find if the user already has a cart with items
+  try {
+    const product_id = req.body["product_id"];
+    const username = req.user["username"];
+
+    // Get user_id using username data
+    const [data] = await db.query("select * from users where username=?", [
+      username,
+    ]);
+    const user_id = data["user_id"];
+
+    const res = await db.query("select * from carts where user_id = ?", [
+      user_id,
+    ]);
+
+    // If no cart found with the user id, create a new cart
+    if (res.length === 0)
+      await db.query("insert into carts (user_id, username) values(?, ?)", [
+        user_id,
+        username,
+      ]);
+    else {
+      console.log(res);
+    }
+
+    // Find user's cart
+    const [cart] = await db.query(
+      "select cart_id from carts where user_id = ?",
+      [user_id]
+    );
+    const cart_id = cart["cart_id"];
+
+    // Add the selected item to user's cart using product_id
+    await db.query(
+      "insert into cart_items (cart_id, product_id, username) values(?,?,?)",
+      [cart_id, product_id, username]
+    );
+
+    // If cart found, add the item to the cart
+  } catch (err) {
+    {
+      console.error(err);
+    }
+  }
 });
+
+// Update the item quantity in the user's cart
+router.post("/updateCart", authenticateUser, async (req, res) => {
+  if (req.isAuthenticated) {
+    // Get new quantity from client
+    const { productId, newQty } = req.body;
+    const username = req.user["username"];
+
+    if (newQty === 0) {
+      await db.query(
+        "delete from cart_items where username = ? and product_id = ?",
+        [username, productId]
+      );
+    } else {
+      // Update the info in the cart_items
+      await db.query(
+        "update cart_items set product_quantity = ? where username = ? and product_id = ?",
+        [newQty, username, productId]
+      );
+    }
+  }
+});
+
 module.exports = router;
