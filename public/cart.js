@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((res) => res.json())
     .then((data) => {
       const { products, userCart } = data;
-      console.log("client says ", products.length);
+      console.log("Cart client says ", products.length);
       // const products = JSON.parse(localStorage.getItem("productsArr"));
       const cart = document.getElementById("cart-container");
 
@@ -38,12 +38,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const productImg = document.createElement("img");
           const productNameContainer = document.createElement("div");
+          const productNameLink = document.createElement("a");
           const productName = document.createElement("p");
           const productPxContainer = document.createElement("div");
           const productPrice = document.createElement("p");
           const productBtnContainer = document.createElement("div");
           const removeBtn = document.createElement("button");
 
+          productNameLink.href = `/productList/${products[i]["product_id"]}`;
+          productNameLink.appendChild(productName);
           // Tags to adjust quantity
           const quantityContainer = document.createElement("div");
           quantityContainer.id = "quantity-container";
@@ -111,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (quantity === 0) {
               // remove item from the cart
-              console.log(i);
+              // console.log(i);
               removeItem(products, i);
             }
           });
@@ -132,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
           productPrice.textContent = price;
           removeBtn.textContent = "Remove";
 
-          productNameContainer.appendChild(productName);
+          productNameContainer.appendChild(productNameLink);
           productNameContainer.className = "product-desc";
           productPxContainer.appendChild(productPrice);
           productPxContainer.className = "product-desc";
@@ -161,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const tax = document.createElement("p");
         const totalPx = document.createElement("p");
         const checkoutBtn = document.createElement("button");
-
+        const cartTotal = document.getElementById("cart-total");
         // Display Default subtotal + total
         subTotalPx.textContent = "Subtotal: " + String(subTotal.toFixed(2));
         tax.textContent = "Taxes: " + String(taxRate);
@@ -172,6 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "checkout.html";
         });
 
+        // Display total amount in cart
+        cartTotal.textContent = "$" + subTotal.toFixed(2);
         totalPxContainer.appendChild(checkoutBtn);
         totalPxContainer.appendChild(subTotalPx);
         totalPxContainer.appendChild(tax);
@@ -189,6 +194,8 @@ function updateQuantity(productId, newQty) {
       productId: productId,
       newQty: newQty,
     }),
+  }).then((res) => {
+    window.location.href = "/cart.html";
   });
 }
 

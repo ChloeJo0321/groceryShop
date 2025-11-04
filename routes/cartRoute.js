@@ -30,6 +30,7 @@ router.get(["/cart", "/cart.html"], authenticateUser, async (req, res) => {
 // Get user's cart or create one if there's none
 router.post("/cart", authenticateUser, async (req, res) => {
   // Find if the user already has a cart with items
+
   try {
     const product_id = req.body["product_id"];
     const username = req.user["username"];
@@ -50,9 +51,6 @@ router.post("/cart", authenticateUser, async (req, res) => {
         user_id,
         username,
       ]);
-    else {
-      console.log(res);
-    }
 
     // Find user's cart
     const [cart] = await db.query(
@@ -61,13 +59,20 @@ router.post("/cart", authenticateUser, async (req, res) => {
     );
     const cart_id = cart["cart_id"];
 
-    // Add the selected item to user's cart using product_id
-    await db.query(
-      "insert into cart_items (cart_id, product_id, username) values(?,?,?)",
-      [cart_id, product_id, username]
+    // Check if the selected item is already in the user's cart using product_id
+    // 1) Y: Update the quantity
+    const item = await db.query(
+      "select * from cart_items where " + "product_id = ? and username = ? ",
+      [product_id, username]
     );
 
-    // If cart found, add the item to the cart
+    // Add the item only when it's not in the user's cart
+    if (item.length === 0) {
+      await db.query(
+        "insert into cart_items (cart_id, product_id, username) values(?,?,?)",
+        [cart_id, product_id, username]
+      );
+    }
   } catch (err) {
     {
       console.error(err);
@@ -87,12 +92,14 @@ router.post("/updateCart", authenticateUser, async (req, res) => {
         "delete from cart_items where username = ? and product_id = ?",
         [username, productId]
       );
+      return res.redirect("/cart.html");
     } else {
-      // Update the info in the cart_items
+      // Update the new quantity in the cart_items
       await db.query(
         "update cart_items set product_quantity = ? where username = ? and product_id = ?",
         [newQty, username, productId]
       );
+      // }
     }
   }
 });
