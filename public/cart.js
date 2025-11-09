@@ -1,15 +1,17 @@
-// Rendering cart items
-// if (path.endsWith("cart.html")) {
 document.addEventListener("DOMContentLoaded", () => {
   fetch("/cart")
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       const { products, userCart } = data;
-      console.log("Cart client says ", products.length);
-      // const products = JSON.parse(localStorage.getItem("productsArr"));
+      console.log(data);
+      console.log(data.isSignedIn);
+
+      // Main cart container
       const cart = document.getElementById("cart-container");
 
-      if (products.length === 0) {
+      if (!products) {
+        // products = undefined when no sign in
         console.log("empty cart");
         const emptyMsg = document.createElement("h3");
         emptyMsg.textContent = "Your cart is empty!";

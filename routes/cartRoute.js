@@ -3,9 +3,11 @@ const router = express.Router();
 const db = require("../config/db");
 const path = require("path");
 const { authenticateUser } = require("../middleware/authMiddleware");
+let isSignedIn = false;
 
 router.get(["/cart", "/cart.html"], authenticateUser, async (req, res) => {
   if (req.isAuthenticated) {
+    isSignedIn = true;
     const username = req.user["username"];
     const query = "select * from cart_items where username = ?";
     // Get all cart items with the username
@@ -21,10 +23,11 @@ router.get(["/cart", "/cart.html"], authenticateUser, async (req, res) => {
       );
       products.push(res);
     }
-    return res.json({ products, userCart });
+    return res.json({ products, userCart, isSignedIn });
   } else {
+    console.log("no sign in");
+    return res.json({ isSignedIn });
   }
-  // return res.redirect
 });
 
 // Get user's cart or create one if there's none
