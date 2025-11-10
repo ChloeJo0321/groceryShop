@@ -81,7 +81,6 @@ router.get("/welcome", authenticateUser, async (req, res) => {
   const username = req.user["username"];
 
   const total = await calculateTotal(username);
-  console.log("total ", total);
   return res.json({ total });
 });
 
