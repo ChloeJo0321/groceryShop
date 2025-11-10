@@ -1,53 +1,56 @@
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector("form").addEventListener("submit", async (e) => {
-    e.preventDefault();
+  // Handles sign in
+  const signInForm = document.querySelector("form");
+  if (signInForm) {
+    signInForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
 
-    const usernameInput = document.getElementById("username").value;
-    const passwordInput = document.getElementById("password").value;
+      fetch("/signIn", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      })
+        .then((res) => res.json()) // Convert JSON string to JS object
+        .then((data) => {
+          // Signin success
+          if (data.data["username"]) {
+            window.location.href = "/welcome.html";
+          } else {
+            // Signin Failure
+            const errorMsg = document.getElementById("error-msg");
+            errorMsg.textContent = data.message;
+            // data.message
+            // data = json object
+            // message = custom property
+          }
+        });
+    });
+  }
 
-    fetch("/signIn", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        username: usernameInput,
-        password: passwordInput,
-      }),
-    })
-      .then((res) => res.json()) // Convert JSON string to JS object
-      .then((data) => {
-        // Signin success
-        if (data["username"]) {
-          window.location.href = "/welcome.html";
-        } else {
-          // Signin Failure
-          const errorMsg = document.getElementById("error-msg");
-          errorMsg.textContent = data.message;
-          // data.message
-          // data = json object
-          // message = custom property
-        }
-      });
-    // if (!res.ok) {
-    //   console.log(res);
-    // }
-
-    // No user found
-    // if (userData.length === 0) {
-    //   const userNameContainer =
-    //     document.getElementById("username-container");
-    //   const noUserFoundMsg = document.createElement("span");
-    //   noUserFoundMsg.textContent =
-    //     "No user found. Please create an account";
-    //   userNameContainer.appendChild(noUserFoundMsg);
-    //   console.log("Not found");
-    // } else {
-    // }
-  });
-
+  // Handles sign up
   const signUpBtn = document.getElementById("sign-up-btn");
-  signUpBtn.addEventListener("click", () => {
-    window.location.href = "form.html";
-  });
+  if (signUpBtn) {
+    signUpBtn.addEventListener("click", () => {
+      window.location.href = "form.html";
+    });
+  }
+  // Handles sign out
+  const signOutBtn = document.getElementById("sign-out-btn");
+  if (signOutBtn) {
+    signOutBtn.addEventListener("click", (e) => {
+      // e.preventDefault();
+      fetch("/signOut")
+        .then((res) => res.json())
+        .then((data) => {
+          window.location.href = "index.html";
+        });
+    });
+  }
 });
 
 function showPassword() {
@@ -58,36 +61,3 @@ function showPassword() {
     passwordInput.type = "password";
   }
 }
-// document.addEventListener("DOMContentLoaded", () => {
-//   document.querySelector("form").addEventListener("submit", async (e) => {
-//     e.preventDefault();
-
-//     const usernameInput = document.getElementById("username").value;
-//     const passwordInput = document.getElementById("password").value;
-//     fetch("/signUp", {
-//       method: "POST",
-//       headers: { "Content-type": "application/json" },
-//       body: JSON.stringify({
-//         username: usernameInput,
-//         password: passwordInput,
-//       }),
-//     })
-//       .then((res) => res.json()) // Convert JSON string to JS object
-//       .then((data) => {});
-//     // if (!res.ok) {
-//     //   console.log(res);
-//     // }
-
-//     // No user found
-//     // if (userData.length === 0) {
-//     //   const userNameContainer =
-//     //     document.getElementById("username-container");
-//     //   const noUserFoundMsg = document.createElement("span");
-//     //   noUserFoundMsg.textContent =
-//     //     "No user found. Please create an account";
-//     //   userNameContainer.appendChild(noUserFoundMsg);
-//     //   console.log("Not found");
-//     // } else {
-//     // }
-//   });
-// });

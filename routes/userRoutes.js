@@ -34,10 +34,14 @@ router.post("/signIn", async (req, res) => {
     return res.status(401).json({ message: "Incorrect password" });
   }
   // Create a token when signin success
-  const token = jwt.sign({ id: data["username"] }, jwtSecret);
-  res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+  const token = jwt.sign({ username: data["username"] }, jwtSecret);
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 3600000,
+  });
 
-  return res.json(data);
+  const total = await calculateTotal(username);
+  return res.json({ data: data, total: total });
 });
 
 router.post("/signUp", async (req, res) => {
@@ -60,11 +64,35 @@ router.post("/signUp", async (req, res) => {
   res.redirect("/index.html");
 });
 
+// Sign out
+router.get("/signOut", async (req, res) => {
+  res.clearCookie("token");
+  return res.json({ message: "coockie cleared" });
+});
+
 router.get("/account", authenticateUser, async (req, res) => {
-  const username = req.user["id"];
+  const username = req.user["username"];
   const query = "select * from users where username = ?";
   const [data] = await db.query(query, [username]);
   return res.json(data);
 });
 
+router.get("/welcome", authenticateUser, async (req, res) => {
+  const username = req.user["username"];
+
+  const total = await calculateTotal(username);
+  console.log("total ", total);
+  return res.json({ total });
+});
+
+async function calculateTotal(username) {
+  const query = "Select * from cart_items where username = ?";
+  const data = await db.query(query, [username]);
+  let total = 0.0;
+
+  data.forEach((item) => {
+    total += item["product_price"] * item["product_quantity"];
+  });
+  return total;
+}
 module.exports = router;
