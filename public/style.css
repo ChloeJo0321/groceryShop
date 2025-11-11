@@ -241,14 +241,14 @@ img {
     cursor: pointer;
 }
 
-#sign-up-btn {
+.sign {
     background-color: #9DC183;
     padding: 10px;
     border: none;
     border-radius: 20px;
 }
 
-#sign-up-btn:hover {
+.sign:hover {
     cursor: pointer;
     border: #536943 1px solid;
 }
