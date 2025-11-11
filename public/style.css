@@ -237,17 +237,8 @@ img {
     display: flex;
 }
 
-#sign-in-btn {
-    background-color: #9DC183;
-    margin-top: 30px;
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-}
-
 #sign-in-btn:hover {
     cursor: pointer;
-    border: #536943 1px solid;
 }
 
 #sign-up-btn {
