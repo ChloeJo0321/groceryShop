@@ -1,3 +1,5 @@
+import { handleSignOut } from "./signOut.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // Handles sign in
   const signInForm = document.querySelector("form");
@@ -39,25 +41,22 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "form.html";
     });
   }
+
   // Handles sign out
-  const signOutBtn = document.getElementById("sign-out-btn");
-  if (signOutBtn) {
-    signOutBtn.addEventListener("click", (e) => {
+  const signInBtn = document.getElementById("sign-in-btn");
+  if (signInBtn.textContent == "Sign Out") {
+    signInBtn.addEventListener("click", () => {
       // e.preventDefault();
-      fetch("/signOut")
-        .then((res) => res.json())
-        .then((data) => {
-          window.location.href = "index.html";
-        });
+      handleSignOut();
     });
   }
 });
 
-function showPassword() {
+window.showPassword = function () {
   let passwordInput = document.getElementById("password");
   if (passwordInput.type == "password") {
     passwordInput.type = "text";
   } else {
     passwordInput.type = "password";
   }
-}
+};

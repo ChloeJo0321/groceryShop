@@ -83,10 +83,12 @@ router.get("/account", authenticateUser, async (req, res) => {
 
 // Calculate user's cart total upon sign in
 router.get("/welcome", authenticateUser, async (req, res) => {
-  const username = req.user["username"];
+  if (req.isAuthenticated) {
+    const username = req.user["username"];
 
-  const total = await calculateTotal(username);
-  return res.json({ total });
+    const total = await calculateTotal(username);
+    return res.json({ total });
+  }
 });
 
 async function calculateTotal(username) {
@@ -99,4 +101,5 @@ async function calculateTotal(username) {
   });
   return total;
 }
+
 module.exports = router;

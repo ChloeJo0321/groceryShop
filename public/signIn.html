@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    <script src="user.js"></script>
+    <script type="module" src="user.js"></script>
     <title>Sign In</title>
 </head>
 
@@ -43,14 +43,14 @@
                         <button type="button" onclick="showPassword()"><i class="fa fa-eye"
                                 aria-hidden="true"></i></button>
                     </div>
-                    <div><input type="submit" value="Sign In" id="sign-in-btn"></div>
+                    <div><input type="submit" value="Sign In" class="sign" id="sign-in-btn"></div>
 
                 </form>
             </div>
 
             <div id="sign-up-btn-container">
                 <p>Don't Have Account?</p>
-                <button type="button" id="sign-up-btn">Sign Up</button>
+                <button type="button" id="sign-up-btn" class="sign">Sign Up</button>
             </div>
         </div>
 

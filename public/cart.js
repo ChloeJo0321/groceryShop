@@ -1,22 +1,25 @@
+import { handleSignOut } from "./signOut.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   fetch("/cart")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       const { products, userCart } = data;
-      console.log(data);
-      console.log(data.isSignedIn);
 
       // Main cart container
       const cart = document.getElementById("cart-container");
+      const signInBtn = document.getElementById("sign-in-btn");
 
-      if (!products) {
-        // products = undefined when no sign in
-        console.log("empty cart");
-        const emptyMsg = document.createElement("h3");
-        emptyMsg.textContent = "Your cart is empty!";
-        cart.appendChild(emptyMsg);
-      } else {
+      if (products) {
+        signInBtn.textContent = "Sign Out";
+
+        // Handle sign out
+        signInBtn.addEventListener("click", () => {
+          handleSignOut();
+        });
+
+        // signInBtn.addEventListener("click", handleSignOut);
+
         const productCart = document.createElement("div");
         productCart.id = "product-cart";
         const totalPxContainer = document.createElement("div");
@@ -24,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cart.appendChild(productCart);
         cart.appendChild(totalPxContainer);
         let subTotal = 0.0;
-        let taxRate = 0.13; // hard-coded for testing
+        let taxes = 0.0; // hard-coded for testing
         let total = 0.0;
 
         for (let i = 0; i < products.length; i++) {
@@ -65,7 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
           quantityPlusBtn.textContent = "+";
 
           subTotal += quantity * price;
-          total = (subTotal * (1 + taxRate)).toFixed(2);
+          taxes = subTotal * 0.13;
+
+          total = (subTotal + taxes).toFixed(2);
 
           // Update quantity: +
           quantityPlusBtn.addEventListener("click", () => {
@@ -80,10 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
             );
             // Recalculate subtotal, total
             subTotal += price;
-            total = (subTotal * (1 + taxRate)).toFixed(2);
+            taxes = subTotal * 0.13;
+            total = (subTotal + taxes).toFixed(2);
 
-            subTotalPx.textContent = "Subtotal: " + String(subTotal.toFixed(2));
-            totalPx.textContent = "Total: " + String(total);
+            subTotalPx.textContent =
+              "Subtotal: $" + String(subTotal.toFixed(2));
+            totalPx.textContent = "Total: $" + String(total);
             quantityDefault.textContent = quantity;
 
             // Update quantity in localStorage
@@ -105,10 +112,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Recalculate subtotal, total
             subTotal -= price;
-            total = (subTotal * (1 + taxRate)).toFixed(2);
+            taxes = subTotal * 0.13;
+            total = (subTotal + taxes).toFixed(2);
 
-            subTotalPx.textContent = "Subtotal: " + String(subTotal.toFixed(2));
-            totalPx.textContent = "Total: " + String(total);
+            subTotalPx.textContent =
+              "Subtotal: $" + String(subTotal.toFixed(2));
+            totalPx.textContent = "Total: $" + String(total);
             quantityDefault.textContent = quantity;
 
             // Update quantity in localStorage
@@ -168,9 +177,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const checkoutBtn = document.createElement("button");
         const cartTotal = document.getElementById("cart-total");
         // Display Default subtotal + total
-        subTotalPx.textContent = "Subtotal: " + String(subTotal.toFixed(2));
-        tax.textContent = "Taxes: " + String(taxRate);
-        totalPx.textContent = "Total: " + String(total);
+        subTotalPx.textContent = "Subtotal: $" + String(subTotal.toFixed(2));
+        tax.textContent = "Taxes: $" + String(taxes);
+        totalPx.textContent = "Total: $" + String(total);
 
         checkoutBtn.textContent = "Continue to checkout";
         checkoutBtn.addEventListener("click", () => {
@@ -183,6 +192,12 @@ document.addEventListener("DOMContentLoaded", () => {
         totalPxContainer.appendChild(subTotalPx);
         totalPxContainer.appendChild(tax);
         totalPxContainer.appendChild(totalPx);
+      } else {
+        // products = undefined when no sign in
+        const emptyMsg = document.createElement("h3");
+        emptyMsg.textContent = "Your cart is empty!";
+        signInBtn.textContent = "Sign In";
+        cart.appendChild(emptyMsg);
       }
     })
     .catch((err) => console.error(err));
