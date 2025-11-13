@@ -56,11 +56,11 @@ if (currentPath[1] == "productList") {
     .then((res) => res.json())
     .then((product) => {
       // Rendering product details
-      console.log("this is data");
       const data = product[0];
       const name = data["product_name"];
       const price = data["product_price"];
       const pic = data["product_pic"];
+      const id = data["product_id"];
 
       const productContainer = document.getElementById("product-container");
       const productImg = document.createElement("img");
@@ -92,23 +92,30 @@ if (currentPath[1] == "productList") {
 
       // Add an item to cart
       addToCartBtn.addEventListener("click", () => {
-        data["product_quantity"] = 1;
-        console.log(data);
-        products = JSON.parse(localStorage.getItem("productsArr"));
+        fetch("/cart", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ product_id: id }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            // Ask server if the user signed in
+            // If no sign in, save product in localStorage
+            if (data === false) {
+              let productsArr =
+                JSON.parse(localStorage.getItem("products")) || [];
+              let product = {};
+              product.name = name;
+              product.price = price;
+              product.quantity = 1;
+              product.pic = pic;
+              product.id = id;
+              productsArr.push(product);
 
-        let isDuplicate = false;
-        for (let i = 0; i < products.length; i++) {
-          if (data["product_name"] == products[i]["product_name"]) {
-            isDuplicate = true;
-          }
-        }
-        if (!isDuplicate) {
-          addToCartBtn.textContent = "Added";
-          products.push(data);
-          localStorage.setItem("productsArr", JSON.stringify(products));
-        } else {
-          addToCartBtn.textContent = "Already added";
-        }
+              localStorage.setItem("products", JSON.stringify(productsArr));
+            }
+          });
       });
     });
 }

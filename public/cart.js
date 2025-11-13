@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const cart = document.getElementById("cart-container");
       const signInBtn = document.getElementById("sign-in-btn");
 
+      // If user sign in,
       if (products) {
         signInBtn.textContent = "Sign Out";
 
@@ -17,8 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
         signInBtn.addEventListener("click", () => {
           handleSignOut();
         });
-
-        // signInBtn.addEventListener("click", handleSignOut);
 
         const productCart = document.createElement("div");
         productCart.id = "product-cart";
@@ -92,9 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
               "Subtotal: $" + String(subTotal.toFixed(2));
             totalPx.textContent = "Total: $" + String(total);
             quantityDefault.textContent = quantity;
-
-            // Update quantity in localStorage
-            localStorage.setItem("productsArr", JSON.stringify(products));
           });
 
           // Update quantity: -
@@ -119,9 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
               "Subtotal: $" + String(subTotal.toFixed(2));
             totalPx.textContent = "Total: $" + String(total);
             quantityDefault.textContent = quantity;
-
-            // Update quantity in localStorage
-            localStorage.setItem("productsArr", JSON.stringify(products));
 
             if (quantity === 0) {
               // remove item from the cart

@@ -87,6 +87,7 @@ router.get("/welcome", authenticateUser, async (req, res) => {
     const username = req.user["username"];
 
     const total = await calculateTotal(username);
+
     return res.json({ total });
   }
 });
@@ -95,11 +96,12 @@ async function calculateTotal(username) {
   const query = "Select * from cart_items where username = ?";
   const data = await db.query(query, [username]);
   let total = 0.0;
-
-  data.forEach((item) => {
-    total += item["product_price"] * item["product_quantity"];
-  });
+  if (data.length != 0) {
+    data.forEach((item) => {
+      total += item["product_price"] * item["product_quantity"];
+    });
+  }
   return total;
 }
 
-module.exports = router;
+module.exports = { router, calculateTotal };
